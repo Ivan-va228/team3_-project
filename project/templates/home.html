@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}FaNota | Home{% endblock %}
+{% block content %}
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Start a new era with your talent</h1>
+            <p>Make your own music</p>
+            <a href="{% url 'catalog' %}"><button>Catalog</button></a>
+        </div>
+    </section>
+
+
+    <section class="hot-section">
+        <h2>Hot rn</h2>
+        <div class="carousel-container">
+            <div class="carousel" id="carousel1">
+                {% for product in products1 %}
+                    <a href="{% url 'product_detail' product.id %}" class="catalog-link">
+                    <div class="carousel-item">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}">
+                        <p>{{ product.title }}</p>
+                        <p>{{ product.name }}</p>
+                        <p>${{ product.price }}</p>
+                    </div>
+                {% empty %}
+                    <p>No products available</p>
+                {% endfor %}
+            </div>
+        </div>
+
+
+    <section class="hot-section">
+        <h3>New in the world of music</h3>
+        <a href="#" class="website-link">Available on website</a>
+        <div class="large-image-placeholder">
+            <img src="{% static 'images/banner.jpg' %}" alt="Новинка у світі музики" style="width: 100%; height: auto; display: block; object-fit: cover; max-height: 100%;">
+        </div>
+    </section>
+
+{% endblock %}

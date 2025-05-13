@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title%} {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo" onclick="window.location.href='/home/'">FaNota</div>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search" onkeyup="searchProducts()">
+            <button id="clear-search" onclick="clearSearch()">✖</button>
+            <div id="search-results" class="search-results"></div>
+        </div>
+        <div class="icons">
+            <img src="{% static 'images/Shopping cart.png' %}" alt="Shopping cart" onclick="window.location.href='/cart/'">
+            <img src="{% static 'images/User.png' %}" alt="User" onclick="window.location.href='/account/'">
+            <img src="{% static 'images/Heart.png' %}" alt="Wishlist" onclick="window.location.href='/like/'">
+        </div>
+    </header>
+    <nav>
+        <a href="{% url 'catalog' %}">Catalog</a>
+        <a href="#">Guitar</a>
+        <a href="#">Drums</a>
+        <a href="#">Piano</a>
+        <a href="#">Sale</a>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer class="footer">
+        <div class="footer-logo">FaNota</div>
+        <div class="footer-links">
+            <div class="footer-column">
+                <h4>Use cases</h4>
+                <a href="#">UI design</a>
+                <a href="#">UX design</a>
+                <a href="#">Wireframing</a>
+                <a href="#">Diagramming</a>
+            </div>
+            <div class="footer-column">
+                <h4>Explore</h4>
+                <a href="#">Design</a>
+                <a href="#">Prototyping</a>
+                <a href="#">Development features</a>
+                <a href="#">Design systems</a>
+            </div>
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <a href="#">Blog</a>
+                <a href="#">Best practices</a>
+                <a href="#">Colors</a>
+                <a href="#">Color wheel</a>
+            </div>
+        </div>
+        <div class="footer-social">
+            <a href="#"><img src="{% static 'images/X Logo.png' %}" alt="X"></a>
+            <a href="#"><img src="{% static 'images/Instagram.png' %}" alt="Instagram"></a>
+            <a href="#"><img src="{% static 'images/YouTube.png' %}" alt="YouTube"></a>
+        </div>
+        <div class="footer-copyright">
+            <p>© 2024 FaNota. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="{% static 'js/search.js' %}"></script>
+</body>
+</html>

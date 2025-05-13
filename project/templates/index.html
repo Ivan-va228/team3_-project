@@ -1,0 +1,116 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaNota</title>
+    <link rel="stylesheet" href="\static\css\style.css">
+</head>
+<body>
+  
+    <header>
+        <div class="logo">FaNota</div>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search" onkeyup="searchProducts()">
+            <button onclick="clearSearch()">✖</button>
+            <div id="search-results" class="search-results"></div> <!-- Контейнер для результатів пошуку -->
+        </div>
+        <div class="icons">
+            <img src="Shopping cart.png" alt="Shopping cart">
+            <img src="User.png" alt="User">
+            <img src="Heart.png" alt="Wishlist">
+        </div>
+    </header>
+    <nav>
+        <a href="#">Guitar</a>
+        <a href="#">Drums</a>
+        <a href="#">Piano</a>
+        <a href="#">Sale</a>
+    </nav>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Start a new era with your talent</h1>
+            <p>Make your own music</p>
+            <button>Catalog</button>
+        </div>
+    </section>
+    <div class="carousel-container">
+        <button class="carousel-btn prev" onclick="scrollCarousel(-1)">&#10094;</button>
+        <div class="carousel" id="carousel">
+            <div class="carousel-item">Item 1</div>
+            <div class="carousel-item">Item 2</div>
+            <div class="carousel-item">Item 3</div>
+            <div class="carousel-item">Item 4</div>
+            <div class="carousel-item">Item 5</div>
+            <div class="carousel-item">Item 6</div>
+            <div class="carousel-item">Item 7</div>
+            <div class="carousel-item">Item 8</div>
+            <div class="carousel-item">Item 9</div>
+            <div class="carousel-item">Item 10</div>
+            <div class="carousel-item">Item 11</div>
+            <div class="carousel-item">Item 12</div>
+            <div class="carousel-item">Item 13</div>
+            <div class="carousel-item">Item 14</div>
+        </div>
+        <button class="carousel-btn next" onclick="scrollCarousel(1)">&#10095;</button>
+    </div>
+
+    <script>
+        // Функція для прокручування каруселі
+        function scrollCarousel(direction) {
+            document.getElementById('carousel').scrollBy({ left: direction * 220, behavior: 'smooth' });
+        }
+
+        async function searchProducts() {
+            let query = document.getElementById('search-input').value.trim();
+            let resultsContainer = document.getElementById('search-results');
+        
+            if (query.length < 2) {
+                resultsContainer.innerHTML = ''; // Якщо рядок пошуку занадто короткий
+                resultsContainer.classList.remove('show');
+                return;
+            }
+        
+            try {
+                let response = await fetch(`/api/products/search/?q=${query}`);
+                
+                // Перевірка на успішну відповідь
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+        
+                let data = await response.json();
+        
+                // Логування даних для перевірки
+                console.log('API response:', data);
+        
+                // Очищаємо попередні результати
+                resultsContainer.innerHTML = '';
+        
+                if (data.results.length === 0) {
+                    resultsContainer.innerHTML = 'No products found.'; // Якщо не знайдено продуктів
+                    resultsContainer.classList.add('show');
+                    return;
+                }
+        
+                // Додаємо результати пошуку
+                data.results.forEach(product => {
+                    let item = document.createElement('div');
+                    item.classList.add('search-result-item');
+                    item.innerHTML = `
+                        <a href="/product/${product.id}/">${product.name}</a>
+                    `;
+                    resultsContainer.appendChild(item);
+                });
+        
+                // Показуємо результати
+                resultsContainer.classList.add('show');
+            } catch (error) {
+                console.error('Search error:', error);
+                resultsContainer.innerHTML = `Error occurred while searching: ${error.message}`;
+                resultsContainer.classList.add('show');
+            }
+        }
+    </script>
+</body>
+</html>  {% endcomment %}

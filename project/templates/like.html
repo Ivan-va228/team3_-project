@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}FaNota | Like{% endblock %}
+{% block content %}
+    <section class="like-section">
+        <h2>Like</h2>
+        <div class="like-grid">
+            {% for product in liked_products %}
+                <div class="like-item">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <div class="item-placeholder">No Image</div>
+                    {% endif %}
+                    <p>{{ product.title }}</p>
+                    <p>${{ product.price }}</p>
+                    <p>{{ product.name }}</p>
+                    <form method="post" action="{% url 'like_toggle' product.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="unlike">
+                        <button type="submit" class="remove-like-btn">Unlike</button>
+                    </form>
+                </div>
+            {% empty %}
+                <p>No liked products yet.</p>
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            <a href="#" class="pagination-arrow">← Previous</a>
+            <a href="#" class="pagination-number active">1</a>
+            <a href="#" class="pagination-number">2</a>
+            <a href="#" class="pagination-number">3</a>
+            <span class="pagination-dots">...</span>
+            <a href="#" class="pagination-number">10</a>
+            <a href="#" class="pagination-number">11</a>
+            <a href="#" class="pagination-arrow">Next →</a>
+        </div>
+    </section>
+{% endblock %}

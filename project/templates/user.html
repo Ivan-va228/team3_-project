@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}FaNota | Home{% endblock%}
+{% block content %}
+    <section class="account-section">
+        <h2>Account</h2>
+        <div class="account-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Value">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Value">
+            </div>
+            <button class="sign-in-btn">Sign in</button>
+            <a href="#" class="forgot-password">Forgot password?</a>
+            <div class="register-section">
+                <a href ="#"class="first-time">First time?</a>
+                <a href="{% url 'register' %}" class="register-btn">Register</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

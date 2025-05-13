@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}FaNota | Catalog{% endblock %}
+{% block content %}
+<section class="catalog-section">
+    <div class="catalog-container">
+        <aside class="filters">
+            <form method="get">
+                <h3>Бренди:</h3>
+                {% for brand in brands %}
+                  <label>
+                    <input type="checkbox" name="brand" value="{{ brand.id }}"
+                      {% if brand.id|stringformat:"s" in selected_brands %}checked{% endif %}>
+                    {{ brand.name }}
+                  </label><br>
+                {% endfor %}
+              
+                <h3>Категорії:</h3>
+                {% for category in categories %}
+                  <label>
+                    <input type="checkbox" name="category" value="{{ category.id }}"
+                      {% if category.id|stringformat:"s" in selected_categories %}checked{% endif %}>
+                    {{ category.name }}
+                  </label><br>
+                {% endfor %}
+              
+                <h3>Ціна:</h3>
+                Від: <input type="number" name="price_min" value="{{ price_min }}">
+                До: <input type="number" name="price_max" value="{{ price_max }}">
+              
+                <h3>Рейтинг:</h3>
+                Мінімальний: <input type="number" name="rating_min" min="0" max="5" value="{{ rating_min }}">
+              
+                <br><br>
+                <button type="submit">Фільтрувати</button>
+              </form>
+              
+        </aside>
+
+        <div class="catalog-content">
+            <h2>Catalog</h2>
+            <div class="catalog-grid">
+                {% for product in products %}
+                <div class="catalog-item">
+                    <a href="{% url 'product_detail' product.id %}" class="catalog-link">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="item-placeholder">
+                        {% else %}
+                            <div class="item-placeholder">No Image</div>
+                        {% endif %}
+                        <p>{{ product.name }}</p>
+                        <p>${{ product.price }}</p>
+                        <p>{{ product.description|truncatewords:10 }}</p>
+                        <p>Rating: {{ product.rating }}</p>
+                    </a>
+                </div>
+                {% empty %}
+                <p>No products found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

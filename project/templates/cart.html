@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}FaNota | Cart{% endblock %}
+
+{% block content %}
+<section class="cart-section">
+    <h2>Cart</h2>
+    <div class="cart-container">
+        <div class="cart-items">
+            {% if cart_items %}
+                {% for item in cart_items %}
+                <div class="cart-item">
+                    <a href="{{ item.product_url }}" class="item-image-link">
+                        <img src="{{ item.image_url }}" alt="{{ item.name }}" class="item-image">
+                    </a>
+                    <div class="item-details">
+                        <p class="item-name">{{ item.name }}</p>
+                        <p class="item-price">${{ item.price }}</p>
+                        <p class="item-quantity">Quantity: {{ item.quantity }}</p>
+                        <div class="quantity-controls">
+                            <form action="{% url 'update_cart' item.id %}" method="POST" class="quantity-form">
+                                {% csrf_token %}
+                                <button type="submit" name="action" value="decrease" class="quantity-btn">-</button>
+                                <input type="number" value="{{ item.quantity }}" min="1" class="quantity-input">
+                                <button type="submit" name="action" value="increase" class="quantity-btn">+</button>
+                            </form>
+                            <form action="{% url 'remove_from_cart' item.id %}" method="POST" class="remove-form">
+                                {% csrf_token %}
+                                <button type="submit" class="remove-btn">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>Your cart is empty.</p>
+            {% endif %}
+        </div>
+
+        <div class="cart-summary">
+            <h3>Full price</h3>
+            <p class="cart-full-price">${{ total }}</p>
+
+            <h3>Shipping</h3>
+            <p class="cart-shipping">from $0.00</p>
+
+            <h3>Full price</h3>
+            <p class="cart-full-price">$0.00</p>
+
+            <a href="{% url 'account' %}"><button>Buy</button></a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
